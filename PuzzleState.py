@@ -13,8 +13,13 @@ class State(object):
             self.came_from = state.came_from
 
     def __copy__(self):
-        copy_board = [row.copy() for row in self._board]
+        import copy
+
+        copy_board = copy.copy(self._board)
         return State(board=copy_board,move=self._move, came_from=self.came_from)
+
+    def __hash__(self):
+        return hash(self._board)
 
     @property
     def board(self):
@@ -23,9 +28,6 @@ class State(object):
     @property
     def move(self):
         return self._move
-
-    def __hash__(self):
-        return hash(str(self._board))
 
     def __eq__(self, other):
         return self._board == other.board
